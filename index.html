@@ -141,6 +141,55 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
  .background-frost,body.background-only .background-frost{transition:none}
 }
 
+
+/* Adjustable control transparency; the global background frost stays independent. */
+:root{
+ --glass-density:1;--control-blur:14px;--small-blur:6px;
+ --glass-edge:rgba(255,255,255,.57);
+ --glass-fill:linear-gradient(135deg,rgba(255,255,255,calc(.17 * var(--glass-density))),rgba(255,255,255,calc(.045 * var(--glass-density))) 42%,rgba(255,255,255,calc(.08 * var(--glass-density)))),rgba(21,29,43,calc(.30 * var(--glass-density)));
+ --glass-shadow:inset 0 1.5px 0 rgba(255,255,255,.76),inset 0 -1px 0 rgba(255,255,255,.28),inset 1px 0 0 rgba(255,255,255,.34),inset -1px 0 0 rgba(255,255,255,.15),0 12px 36px rgba(4,10,23,.18);
+}
+.intro,.card,.sidebar,.menu,.orb,.section-heading,footer,.viewer-bar,.notice{
+ backdrop-filter:blur(var(--control-blur)) saturate(155%);
+ -webkit-backdrop-filter:blur(var(--control-blur)) saturate(155%);
+}
+.cover{
+ border-color:#ffffff66;box-shadow:inset 0 1.5px 0 #ffffff88,inset 0 -1px 0 #ffffff30;
+ backdrop-filter:blur(var(--small-blur)) saturate(135%);
+ -webkit-backdrop-filter:blur(var(--small-blur)) saturate(135%);
+}
+.cover.one{background:linear-gradient(135deg,rgba(162,221,255,calc(.145 * var(--glass-density))),rgba(53,126,181,calc(.08 * var(--glass-density)))),rgba(21,51,75,calc(.22 * var(--glass-density)))}
+.cover.two{background:linear-gradient(135deg,rgba(219,195,255,calc(.16 * var(--glass-density))),rgba(156,104,192,calc(.09 * var(--glass-density)))),rgba(51,31,70,calc(.22 * var(--glass-density)))}
+.cover.three{background:linear-gradient(135deg,rgba(194,245,213,calc(.17 * var(--glass-density))),rgba(86,161,124,calc(.09 * var(--glass-density)))),rgba(25,62,47,calc(.22 * var(--glass-density)))}
+.cover.four{background:linear-gradient(135deg,rgba(255,223,190,calc(.17 * var(--glass-density))),rgba(188,126,78,calc(.09 * var(--glass-density)))),rgba(74,45,24,calc(.22 * var(--glass-density)))}
+.intro:before{background:radial-gradient(ellipse at 0 0,rgba(255,255,255,calc(.13 * var(--glass-density))),transparent 60%)}
+.orb{background:radial-gradient(circle at 28% 18%,rgba(255,255,255,calc(.22 * var(--glass-density))),transparent 55%),var(--glass-fill)}
+#content-toggle[aria-pressed="true"]{background:radial-gradient(circle at 28% 18%,rgba(243,200,234,calc(.27 * var(--glass-density))),transparent 55%),var(--glass-fill);border-color:#ffe1f1a0}
+.nav a.active,.menu button[aria-pressed="true"]{background:linear-gradient(135deg,rgba(242,191,223,calc(.19 * var(--glass-density))),rgba(181,166,236,calc(.08 * var(--glass-density))));border-color:#fff0fb60}
+.tag,.card:nth-child(2) .tag,.card:nth-child(3) .tag,.card:nth-child(4) .tag{
+ background:linear-gradient(135deg,rgba(255,255,255,calc(.125 * var(--glass-density))),rgba(255,255,255,calc(.03 * var(--glass-density))));
+ border-color:#ffffff55;box-shadow:inset 0 1px 0 #ffffff66;
+}
+.viewer-bar button,.viewer-bar a{
+ background:linear-gradient(135deg,rgba(255,255,255,calc(.14 * var(--glass-density))),rgba(255,255,255,calc(.035 * var(--glass-density)))),rgba(21,29,43,calc(.20 * var(--glass-density)));
+ border-color:#ffffff66;box-shadow:inset 0 1.5px 0 #ffffff88,0 4px 14px #00000010;
+ backdrop-filter:blur(var(--small-blur));-webkit-backdrop-filter:blur(var(--small-blur));
+}
+.card:hover{border-color:#ffffffa6}
+.menu{width:248px;max-width:calc(100vw - 102px)}
+.transparency-control{margin:9px 4px 2px;padding:13px 8px 6px;border-top:1px solid #ffffff38}
+.transparency-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#eef1f8}
+.transparency-heading output{font-size:11px;color:#ffe1f6;min-width:35px;text-align:right}
+.slider-wrap{position:relative;margin:13px 0 7px}
+.slider-wrap:after{content:"";position:absolute;top:18px;left:50%;width:2px;height:5px;border-radius:2px;background:#ffe1f6;pointer-events:none;transform:translateX(-50%)}
+#glass-transparency{display:block;width:100%;margin:0;height:24px;appearance:none;-webkit-appearance:none;background:transparent;cursor:pointer;touch-action:none}
+#glass-transparency::-webkit-slider-runnable-track{height:5px;border-radius:5px;background:linear-gradient(90deg,#ffffff38,#f2c5e888);box-shadow:inset 0 1px 2px #0002}
+#glass-transparency::-moz-range-track{height:5px;border-radius:5px;background:linear-gradient(90deg,#ffffff38,#f2c5e888)}
+#glass-transparency::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:19px;height:19px;margin-top:-7px;border-radius:50%;background:linear-gradient(135deg,#fff,#e7d6ef);border:1px solid #fff;box-shadow:0 2px 8px #0004}
+#glass-transparency::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#fff,#e7d6ef);border:1px solid #fff;box-shadow:0 2px 8px #0004}
+.transparency-labels{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#d0d5df}
+.menu #recommended-transparency{display:inline-block;width:auto;padding:2px 7px;text-align:center;font-size:10px;color:#ffe1f6;border-radius:8px}
+
 </style>
 </head>
 <body>
@@ -167,7 +216,7 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
 <footer><span>© <span id="year">2026</span> Mayuri</span><a class="footer-email" href="mailto:hk416notsteelplate@gmail.com">GET IN TOUCH ↗</a></footer>
 </main>
 </div>
-<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="pin-background" aria-pressed="false" disabled>⌖ 固定当前背景</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="site-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
+<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="pin-background" aria-pressed="false" disabled>⌖ 固定当前背景</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button><div class="transparency-control"><div class="transparency-heading"><label for="glass-transparency">控件通透度</label><output id="transparency-value" for="glass-transparency">推荐</output></div><div class="slider-wrap"><input id="glass-transparency" type="range" min="0" max="100" step="0.1" value="50" aria-describedby="transparency-hint"></div><div class="transparency-labels" id="transparency-hint"><span>较低</span><button type="button" id="recommended-transparency" title="恢复推荐通透度">推荐 · 50</button><span>更通透</span></div></div></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="site-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
 <dialog class="viewer" id="image-viewer" aria-label="背景原图"><div class="viewer-stage" id="viewer-stage"><img id="viewer-image" alt="当前背景原图" tabindex="0" role="button" aria-label="切换原始尺寸"></div><div class="viewer-bar"><span class="viewer-title" id="viewer-title"></span><button id="zoom-image">原始尺寸</button><button id="download-image">下载原图</button><a id="open-original" target="_blank" rel="noopener">打开原图</a><button id="close-viewer">关闭 ×</button></div></dialog>
 <div class="notice" id="notice" role="status" hidden></div>
 <script>
@@ -204,6 +253,31 @@ const phoneQuery=matchMedia('(max-width: 767px) and (pointer: coarse), (max-widt
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const el=id=>document.getElementById(id);
 const viewer=el('image-viewer');
+
+const transparencySlider=el('glass-transparency');
+function applyGlassTransparency(value,persist=false){
+ let level=Math.min(100,Math.max(0,Number(value)));
+ if(!Number.isFinite(level))level=50;
+ if(Math.abs(level-50)<=2)level=50;
+ const fraction=level<=50?level/50:(level-50)/50;
+ const density=level<=50?1.18-.18*fraction:1-.90*fraction;
+ const blur=level<=50?16-2*fraction:14-12.5*fraction;
+ const smallBlur=level<=50?7-fraction:6-5.4*fraction;
+ const root=document.documentElement;
+ root.style.setProperty('--glass-density',String(density));
+ root.style.setProperty('--control-blur',blur+'px');
+ root.style.setProperty('--small-blur',smallBlur+'px');
+ transparencySlider.value=String(level);
+ el('transparency-value').textContent=level===50?'推荐':Math.round(level)+'%';
+ transparencySlider.setAttribute('aria-valuetext',level===50?'推荐通透度':Math.round(level)+'% 通透度');
+ if(persist){try{localStorage.setItem('mayuri-glass-transparency',String(level))}catch{}}
+}
+let savedTransparency=50;
+try{const saved=localStorage.getItem('mayuri-glass-transparency');if(saved!==null)savedTransparency=Number(saved)}catch{}
+applyGlassTransparency(savedTransparency);
+transparencySlider.addEventListener('input',()=>applyGlassTransparency(transparencySlider.value,true));
+el('recommended-transparency').onclick=()=>applyGlassTransparency(50,true);
+
 let viewedItem=null;
 let pinnedBackground=null;
 try {
@@ -250,11 +324,12 @@ for(const type of ['pointerdown','click','dblclick','contextmenu']){
 }
 for(const type of ['wheel','touchmove']){
  document.addEventListener(type,event=>{
-  if(contentHidden&&!viewer.open)event.preventDefault();
+  if(contentHidden&&!viewer.open&&!isFloatingControl(event.target))event.preventDefault();
  },{capture:true,passive:false});
 }
 document.addEventListener('keydown',event=>{
  if(!contentHidden||viewer.open)return;
+ if(event.target instanceof HTMLInputElement && event.target.type==='range' && isFloatingControl(event.target))return;
  const scrollKeys=['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','PageUp','PageDown','Home','End',' '];
  if(!scrollKeys.includes(event.key))return;
  // Space still activates the floating buttons for keyboard users.
