@@ -1,0 +1,35 @@
+---
+layout: null
+---
+{
+"landscape": [
+{% assign first = true %}
+{% assign allowed = ".jpg,.jpeg,.png,.webp,.avif,.gif" | split: "," %}
+{% for file in site.static_files %}
+{% assign segments = file.path | split: "/" %}
+{% assign extension = file.extname | downcase %}
+{% if segments[1] == "images" and segments[2] == "landscape" %}
+{% if allowed contains extension %}
+{% unless first %},{% endunless %}
+{"src": {{ file.path | jsonify }}, "title": {{ file.basename | jsonify }}}
+{% assign first = false %}
+{% endif %}
+{% endif %}
+{% endfor %}
+],
+"portrait": [
+{% assign first = true %}
+{% assign allowed = ".jpg,.jpeg,.png,.webp,.avif,.gif" | split: "," %}
+{% for file in site.static_files %}
+{% assign segments = file.path | split: "/" %}
+{% assign extension = file.extname | downcase %}
+{% if segments[1] == "images" and segments[2] == "portrait" %}
+{% if allowed contains extension %}
+{% unless first %},{% endunless %}
+{"src": {{ file.path | jsonify }}, "title": {{ file.basename | jsonify }}}
+{% assign first = false %}
+{% endif %}
+{% endif %}
+{% endfor %}
+]
+}
