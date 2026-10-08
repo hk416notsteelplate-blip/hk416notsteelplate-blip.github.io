@@ -16,12 +16,23 @@ body{isolation:isolate;background:#171d26}.wallpaper{position:fixed;inset:0;z-in
 #content-toggle .eye-slash{display:none}
 #content-toggle[aria-pressed="true"] .eye-slash{display:block}
 html{overflow-y:scroll;scrollbar-gutter:stable}
-body.background-only #page-content{visibility:hidden;pointer-events:none}
+.layout > main,.layout > .sidebar{
+ opacity:1;transform:scale(1);transform-origin:center top;visibility:visible;
+ transition:opacity .24s ease,transform .24s ease,visibility 0s linear 0s;
+}
+body.background-only .layout > main,body.background-only .layout > .sidebar{
+ opacity:0;transform:scale(.97);visibility:hidden;pointer-events:none;
+ transition:opacity .24s ease,transform .24s ease,visibility 0s linear .24s;
+}
+@media(prefers-reduced-motion:reduce){
+ .layout > main,.layout > .sidebar,
+ body.background-only .layout > main,body.background-only .layout > .sidebar{transition:none;transform:none}
+}
 </style>
 </head>
 <body>
 <div class="wallpaper" aria-hidden="true"><img id="wall-a" alt=""><img id="wall-b" alt=""></div>
-<div class="layout">
+<div class="layout" id="site-content">
 <aside class="sidebar"><nav class="nav" aria-label="主导航">
 <a href="#intro" class="active" aria-current="location"><span class="nav-icon" aria-hidden="true">⌂</span>介绍</a>
 <div class="nav-caption">EXPLORE</div>
@@ -42,7 +53,7 @@ body.background-only #page-content{visibility:hidden;pointer-events:none}
 <footer><span>© <span id="year">2026</span> Mayuri</span><a class="footer-email" href="mailto:hk416notsteelplate@gmail.com">GET IN TOUCH ↗</a></footer>
 </main>
 </div>
-<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="page-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
+<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="site-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
 <dialog class="viewer" id="image-viewer" aria-label="背景原图"><div class="viewer-stage" id="viewer-stage"><img id="viewer-image" alt="当前背景原图" tabindex="0" role="button" aria-label="切换原始尺寸"></div><div class="viewer-bar"><span class="viewer-title" id="viewer-title"></span><button id="zoom-image">原始尺寸</button><button id="download-image">下载原图</button><a id="open-original" target="_blank" rel="noopener">打开原图</a><button id="close-viewer">关闭 ×</button></div></dialog>
 <div class="notice" id="notice" role="status" hidden></div>
 <script>
@@ -97,8 +108,8 @@ let contentHidden=false;
 function setContentHidden(hidden){
  if(hidden===contentHidden)return;
  contentHidden=hidden;
- el('page-content').inert=hidden;
- el('page-content').setAttribute('aria-hidden',String(hidden));
+ el('site-content').inert=hidden;
+ el('site-content').setAttribute('aria-hidden',String(hidden));
  document.body.classList.toggle('background-only',hidden);
  const label=hidden?'显示页面内容':'隐藏页面内容';
  el('content-toggle').setAttribute('aria-pressed',String(hidden));
