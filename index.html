@@ -15,7 +15,8 @@ body{isolation:isolate;background:#171d26}.wallpaper{position:fixed;inset:0;z-in
 #content-toggle[aria-pressed="true"]{color:var(--pink);border-color:#e9a6d680}
 #content-toggle .eye-slash{display:none}
 #content-toggle[aria-pressed="true"] .eye-slash{display:block}
-body.background-only .layout{min-height:100vh;min-height:100dvh}
+html{overflow-y:scroll;scrollbar-gutter:stable}
+body.background-only #page-content{visibility:hidden;pointer-events:none}
 </style>
 </head>
 <body>
@@ -92,23 +93,21 @@ function schedule(){clearInterval(timer);timer=null;el('toggle-slideshow').textC
 async function changeBackground(force=false){if(busy&&!force)return;const token=++requestId;busy=true;el('next-background').disabled=true;const {kind,items}=poolInfo();const previous=current?.src||remembered(kind);let candidates=shuffle(items.filter(item=>item.src!==previous));if(!candidates.length)candidates=[...items];else{const fallback=items.find(item=>item.src===previous);if(fallback)candidates.push(fallback)}
  for(const item of candidates){try{const img=await loadImage(item.src);if(token!==requestId)return;const src=cropImage(img,item,kind);const next=el(activeLayer?'wall-a':'wall-b');const old=el(activeLayer?'wall-b':'wall-a');next.src=src;await next.decode();if(token!==requestId)return;next.classList.add('visible');old.classList.remove('visible');activeLayer=1-activeLayer;current=item;remember(kind,item.src);el('view-background').disabled=false;break}catch{if(token!==requestId)return}}
  if(token!==requestId)return;busy=false;el('next-background').disabled=items.length<2;if(!current){notify('图片暂时无法加载，稍后可重试。')}schedule();}
-let contentHidden=false,savedContentScroll=0;
-function setContentHidden(hidden,restoreScroll=true){
+let contentHidden=false;
+function setContentHidden(hidden){
  if(hidden===contentHidden)return;
- if(hidden)savedContentScroll=window.scrollY;
  contentHidden=hidden;
- el('page-content').hidden=hidden;
+ el('page-content').inert=hidden;
+ el('page-content').setAttribute('aria-hidden',String(hidden));
  document.body.classList.toggle('background-only',hidden);
  const label=hidden?'显示页面内容':'隐藏页面内容';
  el('content-toggle').setAttribute('aria-pressed',String(hidden));
  el('content-toggle').setAttribute('aria-label',label);
  el('content-toggle').title=label;
  closeMenu();
- if(hidden)window.scrollTo({top:0,behavior:'instant'});
- else if(restoreScroll)window.scrollTo({top:savedContentScroll,behavior:'instant'});
 }
 el('content-toggle').onclick=()=>setContentHidden(!contentHidden);
-links.forEach(link=>link.addEventListener('click',()=>{if(contentHidden)setContentHidden(false,false)}));
+links.forEach(link=>link.addEventListener('click',()=>{if(contentHidden)setContentHidden(false)}));
 const menu=el('background-menu');function closeMenu(){menu.hidden=true;el('menu-toggle').setAttribute('aria-expanded','false')}
 el('menu-toggle').onclick=()=>{menu.hidden=!menu.hidden;el('menu-toggle').setAttribute('aria-expanded',String(!menu.hidden))};
 document.addEventListener('click',e=>{if(!e.target.closest('.dock'))closeMenu()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
