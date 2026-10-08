@@ -30,10 +30,122 @@ body.background-only .layout > main,body.background-only .layout > .sidebar{
 }
 body.background-only{overscroll-behavior:none}
 body.background-only #site-content{user-select:none;-webkit-user-select:none}
+
+/* Liquid glass surfaces */
+:root{
+ --text:#f1f3f7;--muted:#c3c8d3;
+ --glass-fill:linear-gradient(135deg,rgba(255,255,255,.17),rgba(255,255,255,.045) 42%,rgba(255,255,255,.08)),rgba(21,29,43,.30);
+ --glass-edge:rgba(255,255,255,.30);
+ --glass-shadow:inset 0 1px 0 rgba(255,255,255,.40),inset 0 -1px 0 rgba(255,255,255,.10),inset 1px 0 0 rgba(255,255,255,.12),0 12px 36px rgba(4,10,23,.18);
+}
+.wallpaper:after{background:transparent}
+.background-frost{
+ position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:rgba(14,21,33,.13);
+ backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+ opacity:1;visibility:visible;
+ transition:opacity .24s ease,visibility 0s linear 0s;
+}
+body.background-only .background-frost{
+ opacity:0;visibility:hidden;
+ transition:opacity .24s ease,visibility 0s linear .24s;
+}
+.intro,.card,.sidebar,.menu,.orb,.section-heading,footer,.viewer-bar,.notice{
+ background:var(--glass-fill);
+ border:1px solid var(--glass-edge);
+ box-shadow:var(--glass-shadow);
+ backdrop-filter:blur(14px) saturate(155%);-webkit-backdrop-filter:blur(14px) saturate(155%);
+}
+.intro,.card{border-radius:26px}
+.sidebar{border-radius:22px}
+.menu{border-radius:24px;padding:10px}
+.intro:before{
+ content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+ background:radial-gradient(ellipse at 0 0,rgba(255,255,255,.13),transparent 60%);
+ z-index:-1;
+}
+.intro:after{border-color:#ffffff24;box-shadow:0 0 0 40px #ffffff05,0 0 0 80px #ffffff03}
+.card:hover{border-color:rgba(255,255,255,.48);box-shadow:var(--glass-shadow),0 16px 45px #08102230}
+.cover{
+ opacity:1;border:1px solid #ffffff2d;
+ box-shadow:inset 0 1px 0 #ffffff35,inset 0 -1px 0 #ffffff0d;
+ backdrop-filter:blur(6px) saturate(135%);-webkit-backdrop-filter:blur(6px) saturate(135%);
+ border-radius:18px;
+}
+.cover.one{background:linear-gradient(135deg,#a2ddff25,#357eb515),rgba(21,51,75,.22)}
+.cover.two{background:linear-gradient(135deg,#dbc3ff28,#9c68c018),rgba(51,31,70,.22)}
+.cover.three{background:linear-gradient(135deg,#c2f5d52b,#56a17c18),rgba(25,62,47,.22)}
+.cover.four{background:linear-gradient(135deg,#ffdfbe2b,#bc7e4e18),rgba(74,45,24,.22)}
+.cover .number{text-shadow:0 2px 18px #ffffff1c}
+.cover .label{opacity:.9}
+.nav a{
+ color:#e2e6ed;border:1px solid transparent;border-radius:15px;
+ transition:background .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.nav a:hover,.menu button:hover{
+ background:linear-gradient(135deg,#ffffff25,#ffffff0b);border-color:#ffffff24;
+ box-shadow:inset 0 1px 0 #ffffff2a;
+}
+.nav a.active{
+ background:linear-gradient(135deg,#f2bfdf30,#b5a6ec15);
+ border-color:#f3d9ed36;box-shadow:inset 0 1px 0 #ffffff38,0 3px 12px #11182712;
+ color:#ffe2f6;
+}
+.nav-caption,.sidebar-contact{color:#c3c8d3}
+.email{color:#e3e6ee}
+.section-heading{border-radius:18px;padding:13px 18px;margin-left:0;margin-right:0}
+footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
+.card p,.bio{color:#d0d5df}
+.status{color:#c5cbd6}
+.tag,.card:nth-child(2) .tag,.card:nth-child(3) .tag,.card:nth-child(4) .tag{
+ background:linear-gradient(135deg,#ffffff20,#ffffff08);
+ border:1px solid #ffffff25;box-shadow:inset 0 1px 0 #ffffff28;
+ border-radius:10px;
+}
+.tag{color:#b0e3ff}.card:nth-child(2) .tag{color:#e1caff}
+.card:nth-child(3) .tag{color:#c3f0cb}.card:nth-child(4) .tag{color:#ffd6b3}
+.orb{
+ background:radial-gradient(circle at 28% 18%,#ffffff38,transparent 55%),var(--glass-fill);
+ box-shadow:var(--glass-shadow),inset 0 0 10px #ffffff0b;
+ color:#f6f7fb;
+ transition:background .2s ease,box-shadow .2s ease,scale .2s ease;
+}
+.orb:hover{box-shadow:var(--glass-shadow),0 0 24px #e7d1ff20}
+.orb:active{scale:.94}
+#content-toggle[aria-pressed="true"]{background:radial-gradient(circle at 28% 18%,#f3c8ea45,transparent 55%),var(--glass-fill);border-color:#ffe1f15c;color:#ffe0f4}
+.menu button{
+ border:1px solid transparent;border-radius:14px;color:#eef1f8;
+ background:transparent;box-shadow:none;
+ backdrop-filter:none;-webkit-backdrop-filter:none;
+ transition:background .2s ease,border-color .2s ease;
+}
+.menu p{color:#d1d6e1}
+.menu button[aria-pressed="true"]{background:linear-gradient(135deg,#efc9e528,#baaff215);border-color:#ffffff26}
+.viewer{background:rgba(10,16,27,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.viewer-bar{border-radius:24px 24px 0 0;border-bottom:0}
+.viewer-bar button,.viewer-bar a{
+ background:linear-gradient(135deg,#ffffff24,#ffffff09),rgba(21,29,43,.20);
+ border:1px solid #ffffff30;box-shadow:inset 0 1px 0 #ffffff35,0 4px 14px #00000010;
+ backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.viewer-bar button:hover,.viewer-bar a:hover{background:linear-gradient(135deg,#ffffff35,#ffffff15),rgba(21,29,43,.20)}
+.viewer-title{color:#e2e7ef}
+.notice{border-radius:18px;bottom:165px}
+@media(max-width:620px){
+ .intro,.card{border-radius:22px}
+ .cover{border-radius:14px}
+ .section-heading,footer{padding:11px 14px}
+ .sidebar{border-radius:19px}
+}
+@media(prefers-reduced-motion:reduce){
+ .background-frost,body.background-only .background-frost{transition:none}
+}
+
 </style>
 </head>
 <body>
 <div class="wallpaper" aria-hidden="true"><img id="wall-a" alt=""><img id="wall-b" alt=""></div>
+<div class="background-frost" aria-hidden="true"></div>
 <div class="layout" id="site-content">
 <aside class="sidebar"><nav class="nav" aria-label="主导航">
 <a href="#intro" class="active" aria-current="location"><span class="nav-icon" aria-hidden="true">⌂</span>介绍</a>
