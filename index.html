@@ -190,9 +190,55 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
 .transparency-labels{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#d0d5df}
 .menu #recommended-transparency{display:inline-block;width:auto;padding:2px 7px;text-align:center;font-size:10px;color:#ffe1f6;border-radius:8px}
 
+
+/* Edge-only optical displacement keeps the center and foreground text intact. */
+@supports (backdrop-filter:blur(1px) url("#glass-edge-refraction")){
+ .intro,.card,.sidebar,.menu,.section-heading,footer,.viewer-bar,.notice{
+  backdrop-filter:blur(var(--control-blur)) saturate(155%) url("#glass-edge-refraction");
+  -webkit-backdrop-filter:blur(var(--control-blur)) saturate(155%) url("#glass-edge-refraction");
+ }
+ .orb{
+  backdrop-filter:blur(var(--control-blur)) saturate(155%) url("#glass-orb-refraction");
+  -webkit-backdrop-filter:blur(var(--control-blur)) saturate(155%) url("#glass-orb-refraction");
+ }
+ .cover,.viewer-bar button,.viewer-bar a{
+  backdrop-filter:blur(var(--small-blur)) saturate(135%) url("#glass-edge-refraction");
+  -webkit-backdrop-filter:blur(var(--small-blur)) saturate(135%) url("#glass-edge-refraction");
+ }
+}
+:root{
+ --glass-shadow:inset 0 1.5px 0 rgba(255,255,255,.84),inset 0 -1px 0 rgba(255,255,255,.32),inset 1px 0 0 rgba(194,226,255,.48),inset -1px 0 0 rgba(255,206,241,.33),inset 0 0 9px rgba(230,240,255,.085),0 12px 36px rgba(4,10,23,.18);
+}
+.intro,.card,.sidebar,.menu,.section-heading,footer,.viewer-bar,.notice{border-top-color:#ffffffb8;border-left-color:#d9eeff90;border-right-color:#ffe1f18a}
+.orb{border-top-color:#ffffffca;border-left-color:#d9eeffa6;border-right-color:#ffe1f1a0;box-shadow:var(--glass-shadow),inset 0 0 10px #ffffff18}
+.cover{border-top-color:#ffffffa0;border-left-color:#d9eeff80;border-right-color:#ffe1f178}
+.eyebrow,.nav-caption{font-size:12px}
+.sidebar-contact,.email{font-size:14px}
+.bio,.card p{font-size:14px;line-height:1.8}
+.section-heading span,.status,footer{font-size:13px}
+.cover .label{font-size:11px;letter-spacing:2px}
+.tag{font-size:13px}
+.menu button{font-size:14px}
+.menu p,.viewer-title{font-size:13px}
+.viewer-bar button,.viewer-bar a{font-size:14px}
+.transparency-heading{font-size:13px}
+.transparency-heading output,.transparency-labels,.menu #recommended-transparency{font-size:12px}
+.transparency-labels{gap:3px}
+#transparency-value{min-width:42px}
+@media(max-width:620px){
+ .eyebrow{font-size:11px}
+ .email{font-size:13px}
+ .section-heading span{font-size:11px}
+ .cover .label{font-size:10px;letter-spacing:1.2px}
+ .card p{font-size:13px}
+ .tag,.status,footer{font-size:12px}
+ .card-bottom{flex-wrap:wrap;row-gap:7px}
+}
+
 </style>
 </head>
 <body>
+<svg aria-hidden="true" width="0" height="0" style="position:fixed;pointer-events:none;overflow:hidden"><defs><filter id="glass-edge-refraction" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.024" numOctaves="2" seed="12" result="ripple"/><feDisplacementMap in="SourceGraphic" in2="ripple" scale="22" xChannelSelector="R" yChannelSelector="G" result="refracted"/><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cpath%20fill%3D%22white%22%20fill-rule%3D%22evenodd%22%20d%3D%22M0%200H200V200H0Z%20M8%208V192H192V8Z%22%2F%3E%3C%2Fsvg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="edge"/><feComposite in="refracted" in2="edge" operator="in" result="refractedEdge"/><feComposite in="SourceGraphic" in2="edge" operator="out" result="clearCenter"/><feMerge><feMergeNode in="clearCenter"/><feMergeNode in="refractedEdge"/></feMerge></filter><filter id="glass-orb-refraction" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.024" numOctaves="2" seed="12" result="ripple"/><feDisplacementMap in="SourceGraphic" in2="ripple" scale="14" xChannelSelector="R" yChannelSelector="G" result="refracted"/><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%3E%3Cpath%20fill%3D%22white%22%20fill-rule%3D%22evenodd%22%20d%3D%22M100%200a100%20100%200%201%200%200%20200a100%20100%200%201%200%200-200%20M100%2010a90%2090%200%201%201%200%20180a90%2090%200%201%201%200-180%22%2F%3E%3C%2Fsvg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="edge"/><feComposite in="refracted" in2="edge" operator="in" result="refractedEdge"/><feComposite in="SourceGraphic" in2="edge" operator="out" result="clearCenter"/><feMerge><feMergeNode in="clearCenter"/><feMergeNode in="refractedEdge"/></feMerge></filter></defs></svg>
 <div class="wallpaper" aria-hidden="true"><img id="wall-a" alt=""><img id="wall-b" alt=""></div>
 <div class="background-frost" aria-hidden="true"></div>
 <div class="layout" id="site-content">
