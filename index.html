@@ -28,6 +28,8 @@ body.background-only .layout > main,body.background-only .layout > .sidebar{
  .layout > main,.layout > .sidebar,
  body.background-only .layout > main,body.background-only .layout > .sidebar{transition:none;transform:none}
 }
+body.background-only{overscroll-behavior:none}
+body.background-only #site-content{user-select:none;-webkit-user-select:none}
 </style>
 </head>
 <body>
@@ -126,8 +128,41 @@ async function changeBackground(force=false){if((busy||pinnedBackground)&&!force
  for(const item of candidates){try{const img=await loadImage(item.src);if(token!==requestId)return;const src=cropImage(img,item,kind);const next=el(activeLayer?'wall-a':'wall-b');const old=el(activeLayer?'wall-b':'wall-a');next.src=src;await next.decode();if(token!==requestId)return;next.classList.add('visible');old.classList.remove('visible');activeLayer=1-activeLayer;current=item;remember(kind,item.src);el('view-background').disabled=false;break}catch{if(token!==requestId)return;if(pinnedBackground?.src===item.src){pinnedBackground=null;savePinnedBackground();notify('固定图片无法加载，已恢复自动选择背景。')}}}
  if(token!==requestId)return;busy=false;el('next-background').disabled=items.length<2;if(!current){notify('图片暂时无法加载，稍后可重试。')}schedule();}
 let contentHidden=false;
+let frozenPageX=0,frozenPageY=0;
+function isFloatingControl(target){return target instanceof Element && !!target.closest('.dock, #image-viewer');}
+function blockHiddenPagePointer(event){
+ if(contentHidden&&!isFloatingControl(event.target)){event.preventDefault();event.stopImmediatePropagation();}
+}
+for(const type of ['pointerdown','click','dblclick','contextmenu']){
+ document.addEventListener(type,blockHiddenPagePointer,{capture:true,passive:false});
+}
+for(const type of ['wheel','touchmove']){
+ document.addEventListener(type,event=>{
+  if(contentHidden&&!viewer.open)event.preventDefault();
+ },{capture:true,passive:false});
+}
+document.addEventListener('keydown',event=>{
+ if(!contentHidden||viewer.open)return;
+ const scrollKeys=['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','PageUp','PageDown','Home','End',' '];
+ if(!scrollKeys.includes(event.key))return;
+ // Space still activates the floating buttons for keyboard users.
+ if(event.key===' '&&isFloatingControl(event.target))return;
+ event.preventDefault();
+},{capture:true});
+window.addEventListener('scroll',()=>{
+ if(!contentHidden)return;
+ const root=document.scrollingElement;
+ const x=Math.min(frozenPageX,Math.max(0,root.scrollWidth-root.clientWidth));
+ const y=Math.min(frozenPageY,Math.max(0,root.scrollHeight-root.clientHeight));
+ if(window.scrollX!==x||window.scrollY!==y)window.scrollTo({left:x,top:y,behavior:'instant'});
+},{passive:true});
 function setContentHidden(hidden){
  if(hidden===contentHidden)return;
+ if(hidden){
+  frozenPageX=window.scrollX;frozenPageY=window.scrollY;
+  // Stop a smooth scroll already in progress before locking the position.
+  window.scrollTo({left:frozenPageX,top:frozenPageY,behavior:'instant'});
+ }
  contentHidden=hidden;
  el('site-content').inert=hidden;
  el('site-content').setAttribute('aria-hidden',String(hidden));
