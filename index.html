@@ -33,7 +33,7 @@ body{isolation:isolate;background:#171d26}.wallpaper{position:fixed;inset:0;z-in
 <footer><span>© <span id="year">2026</span> Mayuri</span><a class="footer-email" href="mailto:hk416notsteelplate@gmail.com">GET IN TOUCH ↗</a></footer>
 </main>
 </div>
-<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button><p id="gallery-status" role="status">正在加载…</p></div><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div>
+<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button></div><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div>
 <dialog class="viewer" id="image-viewer" aria-label="背景原图"><div class="viewer-stage" id="viewer-stage"><img id="viewer-image" alt="当前背景原图" tabindex="0" role="button" aria-label="切换原始尺寸"></div><div class="viewer-bar"><span class="viewer-title" id="viewer-title"></span><button id="zoom-image">原始尺寸</button><button id="download-image">下载原图</button><a id="open-original" target="_blank" rel="noopener">打开原图</a><button id="close-viewer">关闭 ×</button></div></dialog>
 <div class="notice" id="notice" role="status" hidden></div>
 <script>
@@ -44,10 +44,21 @@ links.forEach(link => link.addEventListener('click', () => activate(link.hash)))
 window.addEventListener('hashchange', () => activate(location.hash || '#intro'));
 activate(location.hash || '#intro');
 
-// Add your image paths here. Prefer same-origin files for reliable downloads.
-// Example: {src:'images/landscape/photo.jpg', title:'山间', position:[0.5,0.5]}
-// position: crop focus from 0 (left/top) to 1 (right/bottom).
+// Generated automatically from images/landscape/ and images/portrait/ during Pages deployment.
 const GALLERY = { landscape: [], portrait: [] };
+async function initializeGallery() {
+ try {
+  const response = await fetch('./gallery.json', {cache:'no-cache', signal:AbortSignal.timeout(10000)});
+  if (!response.ok) throw new Error('gallery unavailable');
+  const data = await response.json();
+  for (const kind of ['landscape','portrait']) {
+   GALLERY[kind] = (Array.isArray(data[kind]) ? data[kind] : [])
+    .filter(item => item && typeof item.src === 'string' && item.src.startsWith('/images/'+kind+'/'))
+    .map(item => ({src:item.src.split('/').map(encodeURIComponent).join('/'),title:typeof item.title === 'string'?item.title:'背景图片'}));
+  }
+ } catch { /* Keep the built-in fallback if the manifest is temporarily unavailable. */ }
+ await changeBackground(true);
+}
 // Original geometric placeholders; replace with your own gallery images.
 function demoImage(i, portrait) {
  const palettes=[['#111b31','#49719a','#ad84a5'],['#152826','#4d7d73','#acc79c'],['#251b32','#776794','#cda4b4']];
@@ -71,8 +82,8 @@ function cropImage(img,item,kind){try{const canvas=document.createElement('canva
 function notify(message){el('notice').textContent=message;el('notice').hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>el('notice').hidden=true,4500)}
 function schedule(){clearInterval(timer);timer=null;el('toggle-slideshow').textContent=auto?'Ⅱ 暂停轮播':'▷ 开启轮播';el('toggle-slideshow').setAttribute('aria-pressed',String(auto));if(auto&&!document.hidden&&!viewer.open)timer=setInterval(()=>changeBackground(),25000)}
 async function changeBackground(force=false){if(busy&&!force)return;const token=++requestId;busy=true;el('next-background').disabled=true;const {kind,items}=poolInfo();const previous=current?.src||remembered(kind);let candidates=shuffle(items.filter(item=>item.src!==previous));if(!candidates.length)candidates=[...items];else{const fallback=items.find(item=>item.src===previous);if(fallback)candidates.push(fallback)}
- for(const item of candidates){try{const img=await loadImage(item.src);if(token!==requestId)return;const src=cropImage(img,item,kind);const next=el(activeLayer?'wall-a':'wall-b');const old=el(activeLayer?'wall-b':'wall-a');next.src=src;await next.decode();if(token!==requestId)return;next.classList.add('visible');old.classList.remove('visible');activeLayer=1-activeLayer;current=item;remember(kind,item.src);el('view-background').disabled=false;el('gallery-status').textContent=(item.demo?'示例图库 · ':'')+(kind==='portrait'?'竖版':'横版')+' · '+items.length+' 张';break}catch{if(token!==requestId)return}}
- if(token!==requestId)return;busy=false;el('next-background').disabled=items.length<2;if(!current){el('gallery-status').textContent='暂无可用图片';notify('图片暂时无法加载，稍后可重试。')}schedule();}
+ for(const item of candidates){try{const img=await loadImage(item.src);if(token!==requestId)return;const src=cropImage(img,item,kind);const next=el(activeLayer?'wall-a':'wall-b');const old=el(activeLayer?'wall-b':'wall-a');next.src=src;await next.decode();if(token!==requestId)return;next.classList.add('visible');old.classList.remove('visible');activeLayer=1-activeLayer;current=item;remember(kind,item.src);el('view-background').disabled=false;break}catch{if(token!==requestId)return}}
+ if(token!==requestId)return;busy=false;el('next-background').disabled=items.length<2;if(!current){notify('图片暂时无法加载，稍后可重试。')}schedule();}
 const menu=el('background-menu');function closeMenu(){menu.hidden=true;el('menu-toggle').setAttribute('aria-expanded','false')}
 el('menu-toggle').onclick=()=>{menu.hidden=!menu.hidden;el('menu-toggle').setAttribute('aria-expanded',String(!menu.hidden))};
 document.addEventListener('click',e=>{if(!e.target.closest('.dock'))closeMenu()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
@@ -81,7 +92,7 @@ el('view-background').onclick=()=>{if(!current)return;viewedItem={...current};el
 function zoom(){const enabled=el('viewer-stage').classList.toggle('zoomed');el('zoom-image').textContent=enabled?'适应屏幕':'原始尺寸'}el('zoom-image').onclick=zoom;el('viewer-image').onclick=zoom;el('viewer-image').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();zoom()}};
 el('close-viewer').onclick=()=>viewer.close();viewer.addEventListener('close',()=>{document.body.style.overflow='';el('menu-toggle').focus();schedule()});
 el('download-image').onclick=async()=>{if(!viewedItem)return;const item=viewedItem;const button=el('download-image');button.disabled=true;try{const response=await fetch(item.src,{signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('download');const blob=await response.blob();const ext=({'image/svg+xml':'svg','image/png':'png','image/jpeg':'jpg','image/webp':'webp','image/avif':'avif'})[blob.type.split(';')[0]]||'jpg';const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(item.title||'Mayuri-background').replace(/[\/:*?"<>|]/g,'-')+'.'+ext;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}catch{notify('无法直接下载，请点击“打开原图”后保存图片。')}finally{button.disabled=false}};
-phoneQuery.addEventListener('change',()=>{if(viewer.open)viewer.close();changeBackground(true)});document.addEventListener('visibilitychange',schedule);reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches){auto=false;schedule()}});changeBackground();
+phoneQuery.addEventListener('change',()=>{if(viewer.open)viewer.close();changeBackground(true)});document.addEventListener('visibilitychange',schedule);reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches){auto=false;schedule()}});initializeGallery();
 </script>
 </body>
 </html>
