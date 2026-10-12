@@ -235,6 +235,71 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
  .card-bottom{flex-wrap:wrap;row-gap:7px}
 }
 
+
+/* Article navigation and reading surfaces */
+#home-view .intro,#home-view .card{cursor:pointer}
+#home-view .intro:focus-visible,#home-view .card:focus-visible{outline:2px solid var(--pink);outline-offset:5px}
+.article-heading,.article-surface,.comments-surface,.article-list-item{
+ background:var(--glass-fill);border:1px solid var(--glass-edge);
+ border-top-color:#ffffffb8;border-left-color:#d9eeff90;border-right-color:#ffe1f18a;
+ box-shadow:var(--glass-shadow);border-radius:24px;
+ backdrop-filter:blur(var(--control-blur)) saturate(155%);
+ -webkit-backdrop-filter:blur(var(--control-blur)) saturate(155%);
+}
+@supports(backdrop-filter:blur(1px) url("#glass-edge-refraction")){
+ .article-heading,.article-surface,.comments-surface,.article-list-item{
+ backdrop-filter:blur(var(--control-blur)) saturate(155%) url("#glass-edge-refraction");
+ -webkit-backdrop-filter:blur(var(--control-blur)) saturate(155%) url("#glass-edge-refraction");
+ }
+}
+.article-heading{padding:24px 30px;margin-bottom:20px}
+.article-heading h2{margin:4px 0;font-size:26px;font-weight:500}
+.article-heading p{margin:0;color:var(--muted);font-size:14px}
+.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 22px}
+.article-list-item{padding:16px 20px;border-radius:17px;min-width:0}
+.article-list-item strong{display:block;font-size:15px;font-weight:500}
+.article-list-item span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.article-list-item[aria-current="page"]{border-color:#ffe0f5a0;background:linear-gradient(135deg,#e9a6d625,#ffffff08),var(--glass-fill)}
+.article-surface{padding:34px 38px}
+.article-title{font-size:clamp(27px,4vw,38px);font-weight:500;line-height:1.4;margin:0 0 9px;overflow-wrap:anywhere}
+.article-subtitle{margin:0 0 14px;color:#e0d3ed;font-size:17px}
+.article-date{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding-bottom:24px;border-bottom:1px solid #ffffff26;margin-bottom:28px}
+.article-body{font-size:16px;line-height:1.95;overflow-wrap:anywhere}
+.article-body h1{font-size:28px}.article-body h2{font-size:24px}.article-body h3{font-size:20px}
+.article-body h1,.article-body h2,.article-body h3{line-height:1.5;margin:1.6em 0 .7em}
+.article-body p{margin:1em 0}.article-body a{color:#a6d9ff;text-decoration:underline;text-underline-offset:3px}
+.article-body img{display:block;max-width:100%;height:auto;margin:22px auto;border-radius:16px;border:1px solid #ffffff30}
+.article-body blockquote{margin:22px 0;border-left:3px solid var(--pink);padding:10px 20px;background:#ffffff0b;border-radius:0 12px 12px 0;color:#e1dbe8}
+.article-body blockquote p{margin:.4em 0}
+.article-body pre{overflow:auto;padding:18px;background:#08101c80;border:1px solid #ffffff22;border-radius:14px;font-size:13px;line-height:1.8}
+.article-body code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.article-body :not(pre)>code{padding:2px 6px;border-radius:5px;background:#ffffff15;font-size:.9em}
+.article-table-wrap{overflow-x:auto;margin:20px 0}
+.article-body table{border-collapse:collapse;width:100%;font-size:14px}
+.article-body th,.article-body td{padding:10px 14px;border:1px solid #ffffff28;text-align:left}
+.article-body th{background:#ffffff12}
+.article-body hr{border:0;border-top:1px solid #ffffff30;margin:32px 0}
+.article-body li{margin:5px 0}
+.comments-surface{margin-top:22px;padding:25px 30px}
+.comments-surface h2{font-size:20px;font-weight:500;margin:0 0 10px}
+.comments-surface p{font-size:13px;color:var(--muted)}
+.comments-surface a{color:#b7ddff;text-decoration:underline}
+.utterances{max-width:none}
+body.article-mode .sidebar{max-height:calc(100dvh - 96px);overflow:auto}
+body.article-mode .nav a{align-items:flex-start;font-size:14px;overflow-wrap:anywhere}
+body.article-mode .nav-caption{margin-top:16px;font-size:12px;letter-spacing:1px}
+@media(max-width:620px){
+ .article-heading{padding:20px}.article-heading h2{font-size:23px}
+ .article-list{grid-template-columns:1fr;gap:9px}.article-list-item{padding:12px 16px}
+ .article-surface{padding:24px 20px}.article-body{font-size:15px}
+ .article-body h2{font-size:21px}.article-body h3{font-size:18px}
+ .comments-surface{padding:20px}.article-subtitle{font-size:15px}
+ body.article-mode .sidebar{max-height:none}
+ body.article-mode .nav{display:flex;overflow:auto}
+ body.article-mode .nav a{flex:0 0 auto;max-width:190px;align-items:center}
+ body.article-mode .nav-caption{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -251,6 +316,7 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
 <a href="#section-04"><span class="nav-icon" aria-hidden="true">□</span>04</a>
 </nav><a class="sidebar-contact" href="mailto:hk416notsteelplate@gmail.com">联系我 ↗</a></aside>
 <main id="page-content">
+<div id="home-view">
 <section class="intro" id="intro" aria-labelledby="intro-title"><div><p class="eyebrow">PERSONAL SPACE / 介绍</p><h1 id="intro-title">Mayuri<span style="color:var(--pink)">.</span></h1><p class="bio">简介待补充</p><a class="email" href="mailto:hk416notsteelplate@gmail.com"><span aria-hidden="true">✉</span> hk416notsteelplate@gmail.com ↗</a></div></section>
 <div class="section-heading"><h2>栏目</h2><span>04 / SPACES</span></div>
 <div class="grid">
@@ -260,6 +326,18 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
 <section class="card" id="section-04" aria-labelledby="title-04"><div class="cover four" aria-hidden="true"><span class="label">SPACE / 04</span><span class="number">04</span></div><h3 id="title-04">栏目 04</h3><p>内容待补充</p><div class="card-bottom"><span class="tag">▱ 04</span><span class="status">待更新</span></div></section>
 </div>
 <footer><span>© <span id="year">2026</span> Mayuri</span><a class="footer-email" href="mailto:hk416notsteelplate@gmail.com">GET IN TOUCH ↗</a></footer>
+</div>
+<section id="article-view" hidden aria-label="板块文章">
+ <header class="article-heading"><p class="eyebrow">ARTICLES</p><h2 id="section-title"></h2><p>文章列表 · 点击下方条目或左侧导航阅读</p></header>
+ <div class="article-list" id="article-list"></div>
+ <article class="article-surface">
+  <h1 class="article-title" id="article-title"></h1>
+  <p class="article-subtitle" id="article-subtitle" hidden></p>
+  <div class="article-date"><span>上传时间</span><time id="article-date">读取中…</time><span id="article-date-source"></span></div>
+  <div class="article-body" id="article-body"></div>
+ </article>
+ <section class="comments-surface" aria-label="文章评论"><h2>评论</h2><p>使用 GitHub 账号参与讨论。</p><div id="article-comments"></div><p><a id="github-comments-link" target="_blank" rel="noopener">在 GitHub 中查看评论 ↗</a></p></section>
+</section>
 </main>
 </div>
 <div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="pin-background" aria-pressed="false" disabled>⌖ 固定当前背景</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button><div class="transparency-control"><div class="transparency-heading"><label for="glass-transparency">控件通透度</label><output id="transparency-value" for="glass-transparency">推荐</output></div><div class="slider-wrap"><input id="glass-transparency" type="range" min="0" max="100" step="0.1" value="50" aria-describedby="transparency-hint"></div><div class="transparency-labels" id="transparency-hint"><span>较低</span><button type="button" id="recommended-transparency" title="恢复推荐通透度">推荐 · 50</button><span>更通透</span></div></div></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="site-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
@@ -267,11 +345,7 @@ footer{border-radius:18px;margin-top:28px;padding:14px 18px;color:#dde2ec}
 <div class="notice" id="notice" role="status" hidden></div>
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
-const links = [...document.querySelectorAll('.nav a')];
-function activate(hash) { links.forEach(link => { const active = link.hash === hash; link.classList.toggle('active', active); if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); }); }
-links.forEach(link => link.addEventListener('click', () => activate(link.hash)));
-window.addEventListener('hashchange', () => activate(location.hash || '#intro'));
-activate(location.hash || '#intro');
+const links=[];
 
 // Generated automatically from images/landscape/ and images/portrait/ during Pages deployment.
 const GALLERY = { landscape: [], portrait: [] };
@@ -423,6 +497,158 @@ function zoom(){const enabled=el('viewer-stage').classList.toggle('zoomed');el('
 el('close-viewer').onclick=()=>viewer.close();viewer.addEventListener('close',()=>{document.body.style.overflow='';el('menu-toggle').focus();schedule()});
 el('download-image').onclick=async()=>{if(!viewedItem)return;const item=viewedItem;const button=el('download-image');button.disabled=true;try{const response=await fetch(item.src,{signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('download');const blob=await response.blob();const ext=({'image/svg+xml':'svg','image/png':'png','image/jpeg':'jpg','image/webp':'webp','image/avif':'avif'})[blob.type.split(';')[0]]||'jpg';const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(item.title||'Mayuri-background').replace(/[\/:*?"<>|]/g,'-')+'.'+ext;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}catch{notify('无法直接下载，请点击“打开原图”后保存图片。')}finally{button.disabled=false}};
 phoneQuery.addEventListener('change',()=>{if(viewer.open)viewer.close();changeBackground(true)});document.addEventListener('visibilitychange',schedule);reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches){auto=false;schedule()}});initializeGallery();
+
+/* Markdown articles are rendered by GitHub Pages and indexed at build time. */
+const ARTICLE_REPO='hk416notsteelplate-blip/hk416notsteelplate-blip.github.io';
+const SECTION_LABELS={intro:'介绍','01':'栏目 01','02':'栏目 02','03':'栏目 03','04':'栏目 04'};
+const navigation=document.querySelector('.nav');
+const originalNavigation=navigation.innerHTML;
+let articleIndexPromise=null,articleRouteVersion=0;
+const escapeArticleText=text=>String(text??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function articleHash(section,slug){return '#/section/'+encodeURIComponent(section)+(slug?'/'+encodeURIComponent(slug):'')}
+async function loadArticleIndex(){
+ if(!articleIndexPromise)articleIndexPromise=fetch('./articles.json',{cache:'no-cache'})
+ .then(response=>{if(!response.ok)throw Error('index unavailable');return response.json()})
+ .then(data=>{if(!Array.isArray(data.articles))throw Error('invalid index');return data.articles.filter(item=>item&&SECTION_LABELS[item.section]&&typeof item.source==='string'&&item.source.startsWith('articles/'))})
+ .catch(error=>{articleIndexPromise=null;throw error});
+ return articleIndexPromise;
+}
+function dateLabel(value){
+ const date=new Date(value);
+ return Number.isNaN(date.getTime())?null:new Intl.DateTimeFormat('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(date);
+}
+async function readUploadDate(article,version){
+ const target=el('article-date'),source=el('article-date-source');
+ source.textContent='';
+ if(article.uploaded_at&&dateLabel(article.uploaded_at)){
+  target.textContent=dateLabel(article.uploaded_at);target.dateTime=article.uploaded_at;source.textContent='· 文章设置';return;
+ }
+ const key='mayuri-upload-date:'+article.source;
+ try {
+  const cached=JSON.parse(localStorage.getItem(key)||'null');
+  if(cached&&dateLabel(cached.date)&&Date.now()-cached.cachedAt<86400000){
+   target.textContent=dateLabel(cached.date);target.dateTime=cached.date;source.textContent='· GitHub 首次提交';return;
+  }
+ }catch{}
+ target.textContent='读取中…';target.removeAttribute('datetime');
+ try{
+  const url='https://api.github.com/repos/'+ARTICLE_REPO+'/commits?path='+encodeURIComponent(article.source)+'&per_page=1';
+  let response=await fetch(url,{signal:AbortSignal.timeout(12000)});
+  if(!response.ok)throw Error('commit unavailable');
+  let commits=await response.json();
+  const last=(response.headers.get('Link')||'').split(',').find(part=>part.includes('rel="last"'));
+  if(last){
+   const match=last.match(/<([^>]+)>/);
+   if(match&&match[1].startsWith('https://api.github.com/repos/'+ARTICLE_REPO+'/commits?')){
+    response=await fetch(match[1],{signal:AbortSignal.timeout(12000)});
+    if(!response.ok)throw Error('history unavailable');
+    commits=await response.json();
+   }
+  }
+  const date=commits[0]?.commit?.committer?.date;
+  if(!date||!dateLabel(date))throw Error('no date');
+  try{localStorage.setItem(key,JSON.stringify({date,cachedAt:Date.now()}))}catch{}
+  if(version!==articleRouteVersion)return;
+  target.textContent=dateLabel(date);target.dateTime=date;source.textContent='· GitHub 首次提交';
+ }catch{
+  if(version!==articleRouteVersion)return;
+  target.textContent='暂时无法获取';source.textContent='· 可在文章中设置 uploaded_at';
+ }
+}
+function mountArticleComments(article){
+ const host=el('article-comments');host.replaceChildren();
+ const term='Mayuri article: '+article.source;
+ el('github-comments-link').href='https://github.com/'+ARTICLE_REPO+'/issues?q='+encodeURIComponent('in:title "'+term+'"');
+ const script=document.createElement('script');
+ script.src='https://utteranc.es/client.js';script.setAttribute('repo',ARTICLE_REPO);
+ script.setAttribute('issue-term',term);script.setAttribute('theme','github-dark');
+ script.setAttribute('crossorigin','anonymous');script.async=true;
+ script.onerror=()=>{host.textContent='评论暂时无法加载，可通过下方 GitHub 链接查看。'};
+ host.append(script);
+}
+function prepareArticleBody(article){
+ const container=el('article-body');container.innerHTML=article.html||'<p>正文尚未填写。</p>';
+ const articleBase=new URL(article.url,location.href);
+ container.querySelectorAll('img').forEach(image=>{
+  const raw=image.getAttribute('src');
+  if(raw)image.src=new URL(raw,articleBase).href;
+  image.loading='lazy';image.decoding='async';
+ });
+ container.querySelectorAll('a[href]').forEach(link=>{
+  const raw=link.getAttribute('href');
+  if(raw.startsWith('#')){
+   const id=raw.slice(1);
+   link.addEventListener('click',event=>{
+    event.preventDefault();
+    const heading=Array.from(container.querySelectorAll('[id]')).find(node=>node.id===decodeURIComponent(id));
+    heading?.scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth'});
+   });
+  }else if(!/^(javascript|data):/i.test(raw)){
+   link.href=new URL(raw,articleBase).href;
+   if(new URL(link.href).origin!==location.origin){link.target='_blank';link.rel='noopener'}
+  }else link.removeAttribute('href');
+ });
+ container.querySelectorAll('table').forEach(table=>{
+  const wrapper=document.createElement('div');wrapper.className='article-table-wrap';
+  table.before(wrapper);wrapper.append(table);
+ });
+}
+async function showArticleRoute(){
+ const version=++articleRouteVersion;
+ const parts=location.hash.replace(/^#/,'').split('/').filter(Boolean);
+ if(parts[0]!=='section'){
+  el('home-view').hidden=false;el('article-view').hidden=true;
+  document.body.classList.remove('article-mode');navigation.innerHTML=originalNavigation;
+  document.title='Mayuri · 个人主页';el('article-comments').replaceChildren();return;
+ }
+ const section=parts[1];
+ if(!SECTION_LABELS[section]){location.hash='#/home';return}
+ if(contentHidden)setContentHidden(false);
+ el('home-view').hidden=true;el('article-view').hidden=false;document.body.classList.add('article-mode');
+ el('section-title').textContent=SECTION_LABELS[section];
+ el('article-title').textContent='正在载入文章…';el('article-subtitle').hidden=true;
+ el('article-body').replaceChildren();el('article-comments').replaceChildren();el('article-list').replaceChildren();
+ el('article-date').textContent='—';el('article-date-source').textContent='';
+ navigation.innerHTML='<a href="#/home">← 返回主页</a><div class="nav-caption">'+escapeArticleText(SECTION_LABELS[section])+'</div>';
+ try{
+  const all=await loadArticleIndex();if(version!==articleRouteVersion)return;
+  const articles=all.filter(item=>item.section===section).sort((a,b)=>(a.slug==='intro'?-1:b.slug==='intro'?1:((a.order||10)-(b.order||10)||a.title.localeCompare(b.title,'zh-CN'))));
+  let slug;try{slug=parts[2]?decodeURIComponent(parts[2]):'intro'}catch{slug='intro'}
+  let article=articles.find(item=>item.slug===slug);
+  if(!article&&parts[2]){
+   el('article-title').textContent='文章不存在';el('article-body').innerHTML='<p>这篇文章可能已移动或删除，请从列表重新选择。</p>';
+  }else article=article||articles.find(item=>item.slug==='intro')||articles[0];
+  const selected=article?.slug;
+  navigation.innerHTML='<a href="#/home">← 返回主页</a><div class="nav-caption">'+escapeArticleText(SECTION_LABELS[section])+'</div>'+articles.map(item=>'<a href="'+articleHash(section,item.slug)+'"'+(item.slug===selected?' class="active" aria-current="page"':'')+'>'+escapeArticleText(item.title)+'</a>').join('');
+  el('article-list').innerHTML=articles.map(item=>'<a class="article-list-item" href="'+articleHash(section,item.slug)+'"'+(item.slug===selected?' aria-current="page"':'')+'><strong>'+escapeArticleText(item.title)+'</strong><span>'+escapeArticleText(item.subtitle||(item.slug==='intro'?'板块介绍':'阅读全文'))+'</span></a>').join('');
+  if(!article){
+   if(!articles.length){el('article-title').textContent='暂无文章';el('article-body').innerHTML='<p>这个板块还没有发布文章。</p>'}
+   return;
+  }
+  el('article-title').textContent=article.title;
+  el('article-subtitle').textContent=article.subtitle||'';el('article-subtitle').hidden=!article.subtitle;
+  document.title=article.title+' · Mayuri';
+  prepareArticleBody(article);readUploadDate(article,version);mountArticleComments(article);
+  window.scrollTo({top:0,behavior:'instant'});
+ }catch{
+  if(version!==articleRouteVersion)return;
+  el('article-title').textContent='文章列表暂时无法加载';
+  const p=document.createElement('p');p.textContent='请稍后重试。';const button=document.createElement('button');button.textContent='重新加载';button.onclick=showArticleRoute;p.append(' ',button);el('article-body').append(p);
+ }
+}
+for(const [id,section] of [['intro','intro'],['section-01','01'],['section-02','02'],['section-03','03'],['section-04','04']]){
+ const panel=el(id);panel.setAttribute('role','link');panel.tabIndex=0;panel.setAttribute('aria-label','进入'+SECTION_LABELS[section]+'文章列表');
+ panel.addEventListener('click',event=>{if(!event.target.closest('a,button,input'))location.hash=articleHash(section)});
+ panel.addEventListener('keydown',event=>{if(event.target===panel&&(event.key==='Enter'||event.key===' ')){event.preventDefault();location.hash=articleHash(section)}});
+}
+navigation.addEventListener('click',event=>{
+ const link=event.target.closest('a');if(!link)return;
+ const oldSections={'#intro':'intro','#section-01':'01','#section-02':'02','#section-03':'03','#section-04':'04'};
+ const section=oldSections[link.getAttribute('href')];
+ if(section){event.preventDefault();location.hash=articleHash(section)}
+});
+window.addEventListener('hashchange',showArticleRoute);showArticleRoute();
+
 </script>
 </body>
 </html>

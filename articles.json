@@ -1,0 +1,18 @@
+---
+layout: null
+---
+{"articles":[
+{% assign first = true %}
+{% for item in site.pages %}
+{% assign parts = item.path | split: "/" %}
+{% if parts[0] == "articles" and item.published != false %}
+{% assign extension = item.path | split: "." | last | downcase %}
+{% if extension == "md" %}
+{% assign slug = parts | last | remove: ".md" %}
+{% unless first %},{% endunless %}
+{"section":{{ parts[1] | jsonify }},"slug":{{ slug | jsonify }},"title":{{ item.title | default: slug | jsonify }},"subtitle":{{ item.subtitle | default: "" | jsonify }},"uploaded_at":{{ item.uploaded_at | jsonify }},"order":{{ item.order | default: 10 | jsonify }},"source":{{ item.path | jsonify }},"url":{{ item.url | jsonify }},"html":{{ item.content | markdownify | jsonify }}}
+{% assign first = false %}
+{% endif %}
+{% endif %}
+{% endfor %}
+]}
