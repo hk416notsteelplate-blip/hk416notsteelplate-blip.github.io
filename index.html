@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+<meta name="darkreader-lock">
+<meta name="color-scheme" content="light dark">
+<script>
+(()=>{let mode="system";try{const saved=localStorage.getItem("mayuri-theme-mode");if(["system","light","dark"].includes(saved))mode=saved}catch{}document.documentElement.dataset.theme=mode==="system"?(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):mode;})();
+</script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#1d2021"><meta name="description" content="Mayuri 的个人主页"><title>Mayuri · 个人主页</title>
 <style>
@@ -16,17 +21,17 @@ body{isolation:isolate;background:#171d26}.wallpaper{position:fixed;inset:0;z-in
 #content-toggle .eye-slash{display:none}
 #content-toggle[aria-pressed="true"] .eye-slash{display:block}
 html{overflow-y:scroll;scrollbar-gutter:stable}
-.layout > main,.layout > .sidebar{
+.layout > main,.layout > .navigation-column{
  opacity:1;transform:scale(1);transform-origin:center top;visibility:visible;
  transition:opacity .24s ease,transform .24s ease,visibility 0s linear 0s;
 }
-body.background-only .layout > main,body.background-only .layout > .sidebar{
+body.background-only .layout > main,body.background-only .layout > .navigation-column{
  opacity:0;transform:scale(.97);visibility:hidden;pointer-events:none;
  transition:opacity .24s ease,transform .24s ease,visibility 0s linear .24s;
 }
 @media(prefers-reduced-motion:reduce){
- .layout > main,.layout > .sidebar,
- body.background-only .layout > main,body.background-only .layout > .sidebar{transition:none;transform:none}
+ .layout > main,.layout > .navigation-column,
+ body.background-only .layout > main,body.background-only .layout > .navigation-column{transition:none;transform:none}
 }
 body.background-only{overscroll-behavior:none}
 body.background-only #site-content{user-select:none;-webkit-user-select:none}
@@ -334,6 +339,73 @@ body.article-mode .nav-caption{margin-top:16px;font-size:12px;letter-spacing:1px
  .article-switcher .article-list{max-height:min(40dvh,280px)}
 }
 
+
+/* Separate home navigation and native appearance modes. */
+.navigation-column{position:sticky;top:48px;align-self:start;min-width:0}
+.navigation-column .sidebar{position:static}
+.home-return{
+ display:flex;align-items:center;min-height:46px;padding:11px 17px;margin-bottom:13px;
+ border-radius:16px;color:var(--text);font-size:14px;background:var(--glass-fill);
+ border:1px solid var(--glass-edge);box-shadow:var(--glass-shadow);
+ backdrop-filter:blur(var(--control-blur)) saturate(155%);-webkit-backdrop-filter:blur(var(--control-blur)) saturate(155%);
+}
+.home-return:hover{border-color:#ffffffa0}
+body.article-mode .sidebar{max-height:calc(100dvh - 160px)}
+:root{color-scheme:light;--background-shade:0}
+:root[data-theme="dark"]{
+ color-scheme:dark;--background-shade:.36;
+ --glass-edge:rgba(217,227,248,.23);
+ --glass-fill:linear-gradient(135deg,rgba(255,255,255,calc(.055 * var(--glass-density))),rgba(255,255,255,calc(.016 * var(--glass-density))) 42%,rgba(255,255,255,calc(.027 * var(--glass-density)))),rgba(10,16,27,calc(.42 * var(--glass-density)));
+ --glass-shadow:inset 0 1px 0 rgba(223,234,255,.24),inset 0 -1px 0 rgba(255,255,255,.07),inset 1px 0 0 rgba(194,226,255,.13),inset -1px 0 0 rgba(255,206,241,.09),0 12px 36px rgba(0,3,12,.23);
+}
+.wallpaper:after{background:rgba(0,0,0,var(--background-shade));transition:background .24s ease}
+[data-theme="dark"] .intro,[data-theme="dark"] .card,[data-theme="dark"] .sidebar,
+[data-theme="dark"] .menu,[data-theme="dark"] .section-heading,[data-theme="dark"] footer,
+[data-theme="dark"] .viewer-bar,[data-theme="dark"] .notice,[data-theme="dark"] .article-heading,
+[data-theme="dark"] .article-surface,[data-theme="dark"] .comments-surface,
+[data-theme="dark"] .article-list-item,[data-theme="dark"] .home-return{
+ border-top-color:#dce8ff40;border-left-color:#d5e7ff2e;border-right-color:#ecd8eb28;
+}
+[data-theme="dark"] .intro:before{background:radial-gradient(ellipse at 0 0,rgba(255,255,255,calc(.035 * var(--glass-density))),transparent 60%)}
+[data-theme="dark"] .cover{
+ border-color:#dce8ff30;box-shadow:inset 0 1px 0 #dce8ff38,inset 0 -1px 0 #ffffff10;
+}
+[data-theme="dark"] .orb{
+ background:radial-gradient(circle at 28% 18%,rgba(255,255,255,calc(.065 * var(--glass-density))),transparent 55%),var(--glass-fill);
+ border-color:#dce8ff44;box-shadow:var(--glass-shadow);
+}
+[data-theme="dark"] .orb:hover{box-shadow:var(--glass-shadow),0 0 18px #c3b0e50b}
+[data-theme="dark"] #content-toggle[aria-pressed="true"]{
+ background:radial-gradient(circle at 28% 18%,rgba(243,200,234,calc(.10 * var(--glass-density))),transparent 55%),var(--glass-fill);
+ border-color:#edcde659;
+}
+[data-theme="dark"] .tag,[data-theme="dark"] .card:nth-child(2) .tag,
+[data-theme="dark"] .card:nth-child(3) .tag,[data-theme="dark"] .card:nth-child(4) .tag{
+ border-color:#ffffff2b;box-shadow:inset 0 1px 0 #ffffff25;
+ background:linear-gradient(135deg,rgba(255,255,255,calc(.045 * var(--glass-density))),rgba(255,255,255,calc(.015 * var(--glass-density))));
+}
+[data-theme="dark"] .nav a.active,[data-theme="dark"] .menu button[aria-pressed="true"]{
+ background:linear-gradient(135deg,rgba(242,191,223,calc(.085 * var(--glass-density))),rgba(181,166,236,calc(.035 * var(--glass-density))));
+ border-color:#f1dbed2e;box-shadow:inset 0 1px 0 #ffffff28;
+}
+[data-theme="dark"] .nav a:hover,[data-theme="dark"] .menu button:hover{background:#ffffff09;box-shadow:inset 0 1px 0 #ffffff1d}
+[data-theme="dark"] .card:hover{border-color:#dce8ff66;box-shadow:var(--glass-shadow)}
+[data-theme="dark"] .article-switcher summary{background:linear-gradient(135deg,#ffffff0d,#ffffff03);border-color:#dce8ff34;box-shadow:inset 0 1px 0 #ffffff29}
+[data-theme="dark"] .article-switcher-panel{background:linear-gradient(135deg,#ffffff07,#ffffff02),rgba(10,16,27,.94)}
+[data-theme="dark"] .article-switcher .article-list-item{box-shadow:inset 0 1px 0 #ffffff20}
+[data-theme="dark"] .viewer-bar button,[data-theme="dark"] .viewer-bar a{border-color:#dce8ff36;box-shadow:inset 0 1px 0 #ffffff30,0 4px 14px #0002}
+[data-theme="dark"] #glass-transparency::-webkit-slider-thumb{background:linear-gradient(135deg,#ded8e5,#a89db4);border-color:#dfd8e9;box-shadow:0 2px 8px #0004}
+[data-theme="dark"] #glass-transparency::-moz-range-thumb{background:linear-gradient(135deg,#ded8e5,#a89db4);border-color:#dfd8e9}
+#theme-toggle{margin-top:5px}
+@media(max-width:850px){.navigation-column{top:30px}}
+@media(max-width:620px){
+ .navigation-column{position:static;margin-bottom:20px}
+ .navigation-column .sidebar{margin-bottom:0}
+ .home-return{width:max-content;margin-bottom:12px}
+ body.article-mode .sidebar{max-height:none}
+}
+@media(prefers-reduced-motion:reduce){.wallpaper:after{transition:none}}
+
 </style>
 </head>
 <body>
@@ -341,14 +413,14 @@ body.article-mode .nav-caption{margin-top:16px;font-size:12px;letter-spacing:1px
 <div class="wallpaper" aria-hidden="true"><img id="wall-a" alt=""><img id="wall-b" alt=""></div>
 <div class="background-frost" aria-hidden="true"></div>
 <div class="layout" id="site-content">
-<aside class="sidebar"><nav class="nav" aria-label="主导航">
+<div class="navigation-column"><a id="article-home-link" class="home-return" href="#/home" hidden>← 返回主页</a><aside class="sidebar"><nav class="nav" aria-label="主导航">
 <a href="#intro" class="active" aria-current="location"><span class="nav-icon" aria-hidden="true">⌂</span>介绍</a>
 <div class="nav-caption">EXPLORE</div>
 <a href="#section-01"><span class="nav-icon" aria-hidden="true">□</span>01</a>
 <a href="#section-02"><span class="nav-icon" aria-hidden="true">□</span>02</a>
 <a href="#section-03"><span class="nav-icon" aria-hidden="true">□</span>03</a>
 <a href="#section-04"><span class="nav-icon" aria-hidden="true">□</span>04</a>
-</nav><a class="sidebar-contact" href="mailto:hk416notsteelplate@gmail.com">联系我 ↗</a></aside>
+</nav><a class="sidebar-contact" href="mailto:hk416notsteelplate@gmail.com">联系我 ↗</a></aside></div>
 <main id="page-content">
 <div id="home-view">
 <section class="intro" id="intro" aria-labelledby="intro-title"><div><p class="eyebrow">PERSONAL SPACE / 介绍</p><h1 id="intro-title">Mayuri<span style="color:var(--pink)">.</span></h1><p class="bio">简介待补充</p><a class="email" href="mailto:hk416notsteelplate@gmail.com"><span aria-hidden="true">✉</span> hk416notsteelplate@gmail.com ↗</a></div></section>
@@ -384,7 +456,7 @@ body.article-mode .nav-caption{margin-top:16px;font-size:12px;letter-spacing:1px
 </section>
 </main>
 </div>
-<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="pin-background" aria-pressed="false" disabled>⌖ 固定当前背景</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button><div class="transparency-control"><div class="transparency-heading"><label for="glass-transparency">控件通透度</label><output id="transparency-value" for="glass-transparency">推荐</output></div><div class="slider-wrap"><input id="glass-transparency" type="range" min="0" max="100" step="0.1" value="50" aria-describedby="transparency-hint"></div><div class="transparency-labels" id="transparency-hint"><span>较低</span><button type="button" id="recommended-transparency" title="恢复推荐通透度">推荐 · 50</button><span>更通透</span></div></div></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="site-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
+<div class="dock"><div class="menu" id="background-menu" hidden><p>背景图库</p><button id="view-background" disabled>⤢ 查看原图</button><button id="next-background" disabled>↻ 换一张</button><button id="pin-background" aria-pressed="false" disabled>⌖ 固定当前背景</button><button id="toggle-slideshow" aria-pressed="false">▷ 开启轮播</button><button type="button" id="theme-toggle" title="切换跟随系统、浅色、深色模式">◐ 外观 · 跟随系统</button><div class="transparency-control"><div class="transparency-heading"><label for="glass-transparency">控件通透度</label><output id="transparency-value" for="glass-transparency">推荐</output></div><div class="slider-wrap"><input id="glass-transparency" type="range" min="0" max="100" step="0.1" value="50" aria-describedby="transparency-hint"></div><div class="transparency-labels" id="transparency-hint"><span>较低</span><button type="button" id="recommended-transparency" title="恢复推荐通透度">推荐 · 50</button><span>更通透</span></div></div></div><div class="orb-stack"><button type="button" class="orb" id="content-toggle" aria-label="隐藏页面内容" title="隐藏页面内容" aria-pressed="false" aria-controls="site-content"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button><button class="orb" id="menu-toggle" aria-label="背景菜单" aria-expanded="false" aria-controls="background-menu">✧</button></div></div>
 <dialog class="viewer" id="image-viewer" aria-label="背景原图"><div class="viewer-stage" id="viewer-stage"><img id="viewer-image" alt="当前背景原图" tabindex="0" role="button" aria-label="切换原始尺寸"></div><div class="viewer-bar"><span class="viewer-title" id="viewer-title"></span><button id="zoom-image">原始尺寸</button><button id="download-image">下载原图</button><a id="open-original" target="_blank" rel="noopener">打开原图</a><button id="close-viewer">关闭 ×</button></div></dialog>
 <div class="notice" id="notice" role="status" hidden></div>
 <script>
@@ -417,6 +489,31 @@ const phoneQuery=matchMedia('(max-width: 767px) and (pointer: coarse), (max-widt
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const el=id=>document.getElementById(id);
 const viewer=el('image-viewer');
+
+const deviceTheme=matchMedia('(prefers-color-scheme: dark)');
+let appearanceMode='system';
+try{const saved=localStorage.getItem('mayuri-theme-mode');if(['system','light','dark'].includes(saved))appearanceMode=saved}catch{}
+function applyAppearance(){
+ const theme=appearanceMode==='system'?(deviceTheme.matches?'dark':'light'):appearanceMode;
+ document.documentElement.dataset.theme=theme;
+ const name=appearanceMode==='system'?'跟随系统（'+(theme==='dark'?'深色':'浅色')+'）':theme==='dark'?'深色':'浅色';
+ el('theme-toggle').textContent='◐ 外观 · '+name;
+ el('theme-toggle').setAttribute('aria-label','当前外观：'+name+'。点击切换模式。');
+ document.querySelector('meta[name="theme-color"]').content=theme==='dark'?'#0a101b':'#202b3c';
+ const edge=document.querySelector('#glass-edge-refraction feDisplacementMap');
+ const orb=document.querySelector('#glass-orb-refraction feDisplacementMap');
+ if(edge)edge.setAttribute('scale',theme==='dark'?'12':'22');
+ if(orb)orb.setAttribute('scale',theme==='dark'?'8':'14');
+}
+el('theme-toggle').onclick=()=>{
+ const modes=['system','light','dark'];
+ appearanceMode=modes[(modes.indexOf(appearanceMode)+1)%modes.length];
+ try{localStorage.setItem('mayuri-theme-mode',appearanceMode)}catch{}
+ applyAppearance();
+};
+deviceTheme.addEventListener('change',()=>{if(appearanceMode==='system')applyAppearance()});
+applyAppearance();
+
 
 const transparencySlider=el('glass-transparency');
 function applyGlassTransparency(value,persist=false){
@@ -658,19 +755,19 @@ async function showArticleRoute(){
  closeArticleSwitcher();switcherArticles=[];articleSearch.value='';el('switcher-current').textContent='正在载入…';el('article-search-count').textContent='';
  const parts=location.hash.replace(/^#/,'').split('/').filter(Boolean);
  if(parts[0]!=='section'){
-  el('home-view').hidden=false;el('article-view').hidden=true;
+  el('home-view').hidden=false;el('article-view').hidden=true;el('article-home-link').hidden=true;
   document.body.classList.remove('article-mode');navigation.innerHTML=originalNavigation;
   document.title='Mayuri · 个人主页';el('article-comments').replaceChildren();return;
  }
  const section=parts[1];
  if(!SECTION_LABELS[section]){location.hash='#/home';return}
  if(contentHidden)setContentHidden(false);
- el('home-view').hidden=true;el('article-view').hidden=false;document.body.classList.add('article-mode');
+ el('home-view').hidden=true;el('article-view').hidden=false;el('article-home-link').hidden=false;document.body.classList.add('article-mode');
  el('section-title').textContent=SECTION_LABELS[section];
  el('article-title').textContent='正在载入文章…';el('article-subtitle').hidden=true;
  el('article-body').replaceChildren();el('article-comments').replaceChildren();el('article-list').replaceChildren();
  el('article-date').textContent='—';el('article-date-source').textContent='';
- navigation.innerHTML='<a href="#/home">← 返回主页</a><div class="nav-caption">'+escapeArticleText(SECTION_LABELS[section])+'</div>';
+ navigation.innerHTML='<div class="nav-caption">'+escapeArticleText(SECTION_LABELS[section])+'</div>';
  try{
   const all=await loadArticleIndex();if(version!==articleRouteVersion)return;
   const articles=all.filter(item=>item.section===section).sort((a,b)=>(a.slug==='intro'?-1:b.slug==='intro'?1:((a.order||10)-(b.order||10)||a.title.localeCompare(b.title,'zh-CN'))));
@@ -680,7 +777,7 @@ async function showArticleRoute(){
    el('article-title').textContent='文章不存在';el('article-body').innerHTML='<p>这篇文章可能已移动或删除，请从列表重新选择。</p>';
   }else article=article||articles.find(item=>item.slug==='intro')||articles[0];
   const selected=article?.slug;
-  navigation.innerHTML='<a href="#/home">← 返回主页</a><div class="nav-caption">'+escapeArticleText(SECTION_LABELS[section])+'</div>'+articles.map(item=>'<a href="'+articleHash(section,item.slug)+'"'+(item.slug===selected?' class="active" aria-current="page"':'')+'>'+escapeArticleText(item.title)+'</a>').join('');
+  navigation.innerHTML='<div class="nav-caption">'+escapeArticleText(SECTION_LABELS[section])+'</div>'+articles.map(item=>'<a href="'+articleHash(section,item.slug)+'"'+(item.slug===selected?' class="active" aria-current="page"':'')+'>'+escapeArticleText(item.title)+'</a>').join('');
   switcherArticles=articles;switcherSection=section;switcherSelected=selected;
   el('switcher-current').textContent=article?.title||'选择文章';
   renderArticleSwitcher();
